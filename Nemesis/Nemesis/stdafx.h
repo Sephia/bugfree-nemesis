@@ -10,6 +10,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #pragma warning(disable:4099)
 #if defined(_DEBUG)
