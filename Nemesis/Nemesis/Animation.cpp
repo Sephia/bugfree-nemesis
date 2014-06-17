@@ -2,63 +2,68 @@
 
 #include "stdafx.h"
 #include "Animation.h"
+#include "SpriteManager.h"
+#include "Engine.h"
 
-Animation::Animation(sf::Sprite* p_sprite) {
-	mp_sprite = p_sprite;
+Animation::Animation() {
 	m_time = 0.0f;
 	m_currentFrame = 0;
 }
 
-
 Animation::~Animation() {
-	if (mp_sprite != nullptr) {
-		delete mp_sprite;
-		mp_sprite = nullptr;
+	if (m_sprite != nullptr) {
+		delete m_sprite;
+		m_sprite = nullptr;
 	}
 
-	if (mp_frame != nullptr) {
-		mp_frame = nullptr;
+	if (m_frame != nullptr) {
+		m_frame = nullptr;
 	}
 	m_animation.clear();
 }
 
-void Animation::AddFrame(Frame& r_frame) {
-	m_animation.push_back(r_frame);
+void Animation::AddFrame(Frame _frame) {
+	m_animation.push_back(_frame);
 }
 
 void Animation::Update(sf::Vector2f position) {
-	// TODO: Create global static class for deltatime
-	//m_time += Settings::ms_deltatime;
+	m_time += Engine::GetDeltaTime();
+
 	if (m_time >= m_animation[m_currentFrame].duration) {
 		m_time = 0.0f;
 		m_currentFrame = ++m_currentFrame % m_animation.size();
-		mp_frame = &m_animation[m_currentFrame];
-		mp_sprite->setTextureRect(mp_frame->iRect);
+		m_frame = &m_animation[m_currentFrame];
+		m_sprite->setTextureRect(m_frame->iRect);
 	}
-	mp_sprite->setPosition(position);
+	m_sprite->setPosition(position);
 }
 
 void Animation::Update() {
-	// TODO: Create global static class for deltatime
-	//m_time += Settings::ms_deltatime;
+	m_time += Engine::GetDeltaTime();
+
 	if (m_time >= m_animation[m_currentFrame].duration) {
 		m_time = 0.0f;
 		m_currentFrame = ++m_currentFrame % m_animation.size();
-		mp_frame = &m_animation[m_currentFrame];
-		mp_sprite->setTextureRect(mp_frame->iRect);
+		m_frame = &m_animation[m_currentFrame];
+		m_sprite->setTextureRect(m_frame->iRect);
 	}
 }
 
-bool Animation::Init() {
+bool Animation::Init(const std::string& _path) {
+	m_sprite = SpriteManager::GetSprite(_path);
+
+	if (m_sprite == nullptr)
+		return false;
+
 	if (m_animation.size() > 0) {
-		mp_frame = &m_animation[0];
-		mp_sprite->setTextureRect(mp_frame->iRect);
+		m_frame = &m_animation[0];
+		m_sprite->setTextureRect(m_frame->iRect);
 		return true;
 	}
 
 	return false;
 }
 
-sf::Sprite* Animation::getSprite() {
-	return mp_sprite;
+sf::Sprite* Animation::GetSprite() {
+	return m_sprite;
 }

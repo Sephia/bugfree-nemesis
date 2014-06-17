@@ -4,6 +4,13 @@
 #include "StartMenuState.h"
 #include "GameState.h"
 #include "WindowManager.h"
+#include "SpriteManager.h"
+
+#include "AnimationManager.h"
+
+float Engine::m_deltaTime = 0.0f;
+float Engine::m_oldTime = 0.0f;
+float Engine::m_newTime = 0.0f;
 
 Engine::Engine() {
 	m_stateManager = nullptr;
@@ -16,7 +23,15 @@ Engine::~Engine() {
 }
 
 void Engine::Init() {
+	m_oldTime = (float)clock();
+
 	WindowManager::Init();
+	SpriteManager::Init("../data/sprites/");
+
+	am = new AnimationManager();
+	am->Init("../data/animations/player.txt");
+	am->PlayAnimation("Idle");
+
 
 	m_stateManager = new StateManager();
 	m_stateManager->AddState(new StartMenuState);
@@ -25,6 +40,11 @@ void Engine::Init() {
 }
 
 int Engine::Run() {
+	UpdateDeltaTime();
+
+	am->Update();
+	am->DrawAnimation();
+
 	if (!m_stateManager->UpdateEvents()) {
 		running = false;
 	}
@@ -48,5 +68,19 @@ void Engine::CleanUp(){
 		m_stateManager->CleanUp();
 		delete m_stateManager;
 		m_stateManager = nullptr;
+	}
+}
+
+float Engine::GetDeltaTime() {
+	return m_deltaTime;
+}
+
+void Engine::UpdateDeltaTime() {
+	m_oldTime = m_newTime;
+	m_newTime = (float)clock();
+
+	m_deltaTime = float(m_newTime - m_oldTime) / CLOCKS_PER_SEC;
+	if (m_deltaTime > 0.1f) {
+		m_deltaTime = 0.1f;
 	}
 }

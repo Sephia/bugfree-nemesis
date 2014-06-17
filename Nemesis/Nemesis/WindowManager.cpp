@@ -18,8 +18,10 @@ void WindowManager::Draw(sf::Sprite* sprite) {
 }
 
 void WindowManager::Display() {
-	ms_window->clear();
+	
 	ms_window->display();
+
+	ms_window->clear();
 }
 
 void WindowManager::CleanUp() {

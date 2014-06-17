@@ -11,6 +11,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
 
 #pragma warning(disable:4099)
 #if defined(_DEBUG)
