@@ -2,9 +2,6 @@
 
 #pragma once
 
-#include "stdafx.h"
-#include "WindowManager.h"
-
 class State {
 public:
 

@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "GameState.h"
+#include "WindowManager.h"
 
 GameState::GameState() {
 	m_nextState = "";

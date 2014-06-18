@@ -2,6 +2,12 @@
 
 #pragma once
 
+namespace sf {
+	class RenderWindow;
+	class Event;
+	class Sprite;
+}
+
 class WindowManager {
 public:
 	

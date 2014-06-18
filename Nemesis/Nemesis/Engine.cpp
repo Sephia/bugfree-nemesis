@@ -6,7 +6,7 @@
 #include "WindowManager.h"
 #include "SpriteManager.h"
 
-#include "AnimationManager.h"
+#include "TileGrid.h"
 
 float Engine::m_deltaTime = 0.0f;
 float Engine::m_oldTime = 0.0f;
@@ -28,10 +28,8 @@ void Engine::Init() {
 	WindowManager::Init();
 	SpriteManager::Init("../data/sprites/");
 
-	am = new AnimationManager();
-	am->Init("../data/animations/player.txt");
-	am->PlayAnimation("Idle");
-
+	tg = new TileGrid();
+	tg->Init();
 
 	m_stateManager = new StateManager();
 	m_stateManager->AddState(new StartMenuState);
@@ -42,8 +40,8 @@ void Engine::Init() {
 int Engine::Run() {
 	UpdateDeltaTime();
 
-	am->Update();
-	am->DrawAnimation();
+	tg->Update();
+	tg->Draw();
 
 	if (!m_stateManager->UpdateEvents()) {
 		running = false;

@@ -3,7 +3,7 @@
 #pragma once
 
 class StateManager;
-class AnimationManager;
+class TileGrid;
 
 class Engine {
 public:
@@ -29,6 +29,6 @@ private:
 	static float m_oldTime;
 	static float m_newTime;
 
-	AnimationManager* am;
+	TileGrid* tg;
 };
 

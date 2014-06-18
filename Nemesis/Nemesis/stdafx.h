@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <iterator>
 
+const int WORLDSIZE = 150;
+const int TILESIZE = 64;
+
 #pragma warning(disable:4099)
 #if defined(_DEBUG)
 #pragma comment(lib, "debug/sfml-window-d.lib")

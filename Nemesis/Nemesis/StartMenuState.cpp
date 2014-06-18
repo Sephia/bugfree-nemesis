@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "StartMenuState.h"
+#include "WindowManager.h"
 
 StartMenuState::StartMenuState() {
 	m_nextState = "";

@@ -88,6 +88,9 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TileFloor.cpp" />
+    <ClCompile Include="TileGrid.cpp" />
+    <ClCompile Include="TileWall.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +105,10 @@
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TileBase.h" />
+    <ClInclude Include="TileFloor.h" />
+    <ClInclude Include="TileGrid.h" />
+    <ClInclude Include="TileWall.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
