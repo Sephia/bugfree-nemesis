@@ -20,7 +20,10 @@ TileWall::TileWall(Position pos) {
 }
 
 TileWall::~TileWall() {
-	
+	if (m_sprite != nullptr) {
+		delete m_sprite;
+		m_sprite = nullptr;
+	}
 }
 
 bool TileWall::IsWalkable() {

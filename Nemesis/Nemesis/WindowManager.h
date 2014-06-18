@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Position.h"
+
 namespace sf {
 	class RenderWindow;
 	class Event;
@@ -16,9 +18,11 @@ public:
 
 	static bool PollEvents(sf::Event* event);
 	static void Draw(sf::Sprite* sprite);
+	static void UpdateViewPosition(Position pos);
 
 	static void Display();
 
 private:
-	static sf::RenderWindow *ms_window;
+	static sf::RenderWindow *m_window;
+	static sf::View *m_view;
 };

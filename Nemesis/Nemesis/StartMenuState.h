@@ -3,6 +3,11 @@
 #pragma once
 
 #include "State.h"
+#include "Position.h"
+
+namespace sf {
+	class View;
+}
 
 class StartMenuState : public State {
 public:
@@ -23,5 +28,6 @@ public:
 	void CleanUp();
 
 private:
+	Position m_viewPosition;
 
 };

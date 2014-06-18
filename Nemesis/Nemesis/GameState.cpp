@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "GameState.h"
 #include "WindowManager.h"
+#include "Input.h"
 
 GameState::GameState() {
 	m_nextState = "";
@@ -34,23 +35,13 @@ int GameState::Update() {
 }
 
 int GameState::UpdateEvents() {
-	sf::Event event;
-	while (WindowManager::PollEvents(&event)) {
-		switch (event.type) {
-		case sf::Event::Closed:
-			return false;
-			break;
 
-		case sf::Event::KeyPressed:
-			if (event.key.code == sf::Keyboard::Escape)
-				return false;
+	if (Input::IsDown(sf::Keyboard::Escape))
+		return false;
 
-		default:
-			break;
+	if (Input::Close())
+		return false;
 
-
-		}
-	}
 	return true;
 }
 

@@ -15,6 +15,7 @@ StateManager::~StateManager() {
 
 void StateManager::AddState(State* state) {
 	if (state != nullptr) {
+		state->Init();
 		m_states.push_back(state);
 	}
 	else {

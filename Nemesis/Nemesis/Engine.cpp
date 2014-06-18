@@ -5,6 +5,7 @@
 #include "GameState.h"
 #include "WindowManager.h"
 #include "SpriteManager.h"
+#include "Input.h"
 
 #include "TileGrid.h"
 
@@ -15,6 +16,8 @@ float Engine::m_newTime = 0.0f;
 Engine::Engine() {
 	m_stateManager = nullptr;
 	running = true;
+
+	srand(time(NULL));
 }
 
 
@@ -25,11 +28,13 @@ Engine::~Engine() {
 void Engine::Init() {
 	m_oldTime = (float)clock();
 
+	Input::Init();
 	WindowManager::Init();
 	SpriteManager::Init("../data/sprites/");
 
 	tg = new TileGrid();
 	tg->Init();
+
 
 	m_stateManager = new StateManager();
 	m_stateManager->AddState(new StartMenuState);
@@ -39,6 +44,7 @@ void Engine::Init() {
 
 int Engine::Run() {
 	UpdateDeltaTime();
+	Input::Update();
 
 	tg->Update();
 	tg->Draw();

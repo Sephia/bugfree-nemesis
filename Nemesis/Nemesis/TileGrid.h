@@ -19,6 +19,11 @@ public:
 	void Update();
 	void Draw();
 
+	void SpawnRectangleRoom(Position midPos, int sizeX, int sizeY);
+	void SpawnStartingRoom();
+
+
+
 private:
 	std::vector<std::vector<TileBase*>> m_tiles;
 

@@ -20,7 +20,10 @@ TileFloor::TileFloor(Position pos) {
 }
 
 TileFloor::~TileFloor() {
-
+	if (m_sprite != nullptr) {
+		delete m_sprite;
+		m_sprite = nullptr;
+	}
 }
 
 bool TileFloor::IsWalkable() {
