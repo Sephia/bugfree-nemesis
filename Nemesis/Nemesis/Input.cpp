@@ -27,11 +27,9 @@ void Input::Update() {
 	while (WindowManager::PollEvents(&event)) {
 		if (event.type == sf::Event::KeyPressed) {
 			m_keyboard.at(event.key.code) = true;
-			std::cout << "KeyPressed" << std::endl;
 		}
 		else if (event.type == sf::Event::KeyReleased) {
 			m_keyboard.at(event.key.code) = false;
-			std::cout << "KeyReleased" << std::endl;
 		}
 		else if (event.type == sf::Event::MouseButtonPressed) {
 			m_mouse.at(event.mouseButton.button) = true;

@@ -15,7 +15,7 @@
 #include <algorithm>
 #include <iterator>
 
-const int WORLDSIZE = 25;
+const int WORLDSIZE = 100;
 const int TILESIZE = 64;
 
 #pragma warning(disable:4099)

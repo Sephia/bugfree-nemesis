@@ -8,7 +8,8 @@ sf::View *WindowManager::m_view = nullptr;
 
 void WindowManager::Init() {
 	m_window = new sf::RenderWindow(sf::VideoMode(1600, 900), "Nemesis", sf::Style::Default);
-	m_view = new sf::View(sf::Vector2f(m_window->getSize().x / 2, m_window->getSize().y / 2), sf::Vector2f(m_window->getSize()));
+	//m_view = new sf::View(sf::Vector2f(m_window->getSize().x / 2, m_window->getSize().y / 2), sf::Vector2f(m_window->getSize()));
+	m_view = new sf::View(sf::Vector2f(m_window->getSize().x / 2, m_window->getSize().y / 2), sf::Vector2f(WORLDSIZE * TILESIZE, WORLDSIZE * TILESIZE));
 }
 
 bool WindowManager::PollEvents(sf::Event* event) {

@@ -14,7 +14,7 @@ TileFloor::TileFloor() {
 
 TileFloor::TileFloor(Position pos) {
 	m_walkable = false;
-	m_type = "Tiles";
+	m_type = "floor";
 	m_sprite = SpriteManager::GetSprite("Tiles.png", 0, 0, 64, 64);
 	m_sprite->setPosition(sf::Vector2f((float)pos.m_x, (float)pos.m_y));
 }

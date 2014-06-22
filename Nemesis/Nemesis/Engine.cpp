@@ -17,7 +17,7 @@ Engine::Engine() {
 	m_stateManager = nullptr;
 	running = true;
 
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 }
 
 
