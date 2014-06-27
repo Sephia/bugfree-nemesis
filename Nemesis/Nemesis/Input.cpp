@@ -4,13 +4,30 @@
 #include "Input.h"
 #include "WindowManager.h"
 
-std::vector<bool> Input::m_keyboard;
-std::vector<bool> Input::m_keyboardOld;
-std::vector<bool> Input::m_mouse;
-std::vector<bool> Input::m_mouseOld;
-bool Input::m_closeEvent;
+Input* Input::m_single = nullptr;
+bool Input::m_instanceFlag = false;
+
+Input::~Input() {
+	m_instanceFlag = false;
+}
+
+Input* Input::GetInstance() {
+	if (!m_instanceFlag) {
+		m_single = new Input();
+		m_instanceFlag = true;
+	}
+
+	return m_single;
+}
+
+void Input::RemoveInstance() {
+	delete m_single;
+	m_single = nullptr;
+}
 
 void Input::Init() {
+	m_windowManager = WindowManager::GetInstance();
+
 	m_keyboard.resize(sf::Keyboard::KeyCount, false);
 	m_keyboardOld.resize(sf::Keyboard::KeyCount, false);
 	
@@ -24,7 +41,7 @@ void Input::Update() {
 	PostUpdate();
 
 	sf::Event event;
-	while (WindowManager::PollEvents(&event)) {
+	while (m_windowManager->PollEvents(&event)) {
 		if (event.type == sf::Event::KeyPressed) {
 			m_keyboard.at(event.key.code) = true;
 		}

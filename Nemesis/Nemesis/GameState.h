@@ -4,6 +4,9 @@
 
 #include "State.h"
 
+class TileGrid;
+class GameObjectManager;
+
 class GameState : public State {
 public:
 	GameState();
@@ -17,12 +20,13 @@ public:
 	int Update();
 	int UpdateEvents();
 
-	std::string GetNextState();
-	bool IsState(std::string name);
+	StateName GetNextState();
+	bool IsState(StateName name);
 
 	void CleanUp();
 
 private:
-
+	TileGrid* m_tg;
+	GameObjectManager* m_gom;
 };
 

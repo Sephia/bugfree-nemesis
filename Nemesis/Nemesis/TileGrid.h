@@ -47,8 +47,9 @@ public:
 	};
 
 public:
-	TileGrid();
 	~TileGrid();
+	static TileGrid* GetInstance();
+	static void RemoveInstance();
 
 	void Init();
 
@@ -58,17 +59,24 @@ public:
 	void Update();
 	void Draw();
 
-	void SpawnRooms(std::vector<std::vector<TileStatus>> &tiles);
-	void ConnectRooms(std::vector<std::vector<TileStatus>> &tiles);
+	Position GetStartPosition();
 
 	void CleanUp();
 
 private:
+	TileGrid(){};
+
+	void SpawnRooms(std::vector<std::vector<TileStatus>> &tiles);
+	void ConnectRooms(std::vector<std::vector<TileStatus>> &tiles);
+	
+private:
+	static bool m_instanceFlag;
+	static TileGrid* m_single;
+
 	std::vector<std::vector<TileBase*>> m_tiles;
 
 	std::vector<Room> m_rooms;
 	std::vector<bool> m_connected;
 
-	sf::Sprite* m_floorSprite;
-	sf::Sprite* m_wallSprite;
+	Position m_startPosition;
 };

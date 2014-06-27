@@ -22,8 +22,8 @@ public:
 	int Update();
 	int UpdateEvents();
 
-	std::string GetNextState();
-	bool IsState(std::string name);
+	StateName GetNextState();
+	bool IsState(StateName name);
 
 	void CleanUp();
 

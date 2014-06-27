@@ -7,15 +7,18 @@
 #include "SpriteManager.h"
 #include "Input.h"
 
-#include "TileGrid.h"
 
 float Engine::m_deltaTime = 0.0f;
 float Engine::m_oldTime = 0.0f;
 float Engine::m_newTime = 0.0f;
 
 Engine::Engine() {
+	m_windowManager = nullptr;
 	m_stateManager = nullptr;
-	running = true;
+	m_input = nullptr;
+	m_spriteManager = nullptr;
+
+	m_running = true;
 
 	srand((unsigned)time(NULL));
 }
@@ -28,51 +31,59 @@ Engine::~Engine() {
 void Engine::Init() {
 	m_oldTime = (float)clock();
 
-	Input::Init();
-	WindowManager::Init();
-	SpriteManager::Init("../data/sprites/");
+	m_input = Input::GetInstance();
+	m_input->Init();
 
-	tg = new TileGrid();
-	tg->Init();
+	m_windowManager = WindowManager::GetInstance();
+	m_windowManager->Init();
 
+	m_spriteManager = SpriteManager::GetInstance();
+	m_spriteManager->Init("../data/sprites/");
 
 	m_stateManager = new StateManager();
-	m_stateManager->AddState(new StartMenuState);
-	m_stateManager->AddState(new GameState);
-	m_stateManager->SetState("StartMenuState");
+	m_stateManager->AddState(new StartMenuState());
+	m_stateManager->AddState(new GameState());
+	m_stateManager->SetState(GAMESTATE);
 }
 
 int Engine::Run() {
 	UpdateDeltaTime();
-	Input::Update();
-
-	tg->Update();
-	tg->Draw();
+	m_input->Update();
 
 	if (!m_stateManager->UpdateEvents()) {
-		running = false;
+		m_running = false;
 	}
 	else if (m_stateManager->Update()) {
 		m_stateManager->Draw();
-		WindowManager::Display();
+		m_windowManager->Display();
 	}
 	else {
 		if (!m_stateManager->ChangeState()) {
-			running = false;
+			m_running = false;
 		}
 	}
 
-	return running;
+	return m_running;
 }
 
 void Engine::CleanUp(){
-	WindowManager::CleanUp();
+	m_spriteManager->CleanUp();
+	SpriteManager::RemoveInstance();
+	m_spriteManager = nullptr;
+
+	m_windowManager->CleanUp();
+	WindowManager::RemoveInstance();
+	m_windowManager = nullptr;
+
+	Input::RemoveInstance();
+	m_input = nullptr;
 
 	if (m_stateManager != nullptr) {
 		m_stateManager->CleanUp();
 		delete m_stateManager;
 		m_stateManager = nullptr;
 	}
+
 }
 
 float Engine::GetDeltaTime() {

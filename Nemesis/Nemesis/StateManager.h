@@ -12,8 +12,8 @@ public:
 	~StateManager();
 
 	void AddState(State* state);
-	void SetState(std::string name);
-	int ChangeState(); // false if can not find next state. Quits.
+	void SetState(StateName name);
+	bool ChangeState(); // false if can not find next state. Quits.
 
 	int UpdateEvents();	// quit if false
 	int Update();	// quit if false

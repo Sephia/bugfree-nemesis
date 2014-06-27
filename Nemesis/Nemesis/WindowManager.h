@@ -12,17 +12,26 @@ namespace sf {
 
 class WindowManager {
 public:
+	~WindowManager();
+	static WindowManager* GetInstance();
+	static void RemoveInstance();
 	
-	static void Init();
-	static void CleanUp();
+	void Init();
+	void CleanUp();
 
-	static bool PollEvents(sf::Event* event);
-	static void Draw(sf::Sprite* sprite);
-	static void UpdateViewPosition(Position pos);
+	bool PollEvents(sf::Event* event);
+	void Draw(sf::Sprite* sprite);
+	void UpdateViewPosition(Position pos);
 
-	static void Display();
+	void Display();
 
 private:
-	static sf::RenderWindow *m_window;
-	static sf::View *m_view;
+	WindowManager(){};
+
+private:
+	static bool m_instanceFlag;
+	static WindowManager* m_single;
+
+	sf::RenderWindow *m_window;
+	sf::View *m_view;
 };

@@ -4,28 +4,41 @@
 
 #include "stdafx.h"
 
+class WindowManager;
+
 class Input {
 public:
-	static void Init();
+	~Input();
+	static Input* GetInstance();
+	static void RemoveInstance();
 
-	static void Update();
+	void Init();
 
-	static bool IsDownOnce(sf::Keyboard::Key code);
-	static bool IsDownOnce(sf::Mouse::Button code);
+	void Update();
 
-	static bool IsDown(sf::Keyboard::Key code);
-	static bool IsDown(sf::Mouse::Button code);
+	bool IsDownOnce(sf::Keyboard::Key code);
+	bool IsDownOnce(sf::Mouse::Button code);
 
-	static bool Close();
+	bool IsDown(sf::Keyboard::Key code);
+	bool IsDown(sf::Mouse::Button code);
+
+	bool Close();
 
 private:
-	static void PostUpdate();
+	Input(){};
+	void PostUpdate();
+
 private:
-	static std::vector<bool> m_keyboard;
-	static std::vector<bool> m_keyboardOld;
-	static std::vector<bool> m_mouse;
-	static std::vector<bool> m_mouseOld;
+	static Input* m_single;
+	static bool m_instanceFlag;
+
+	std::vector<bool> m_keyboard;
+	std::vector<bool> m_keyboardOld;
+	std::vector<bool> m_mouse;
+	std::vector<bool> m_mouseOld;
 	
-	static bool m_closeEvent;
+	bool m_closeEvent;
+
+	WindowManager* m_windowManager;
 };
 

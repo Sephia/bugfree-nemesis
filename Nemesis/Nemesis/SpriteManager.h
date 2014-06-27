@@ -4,16 +4,24 @@
 
 class SpriteManager {
 public:
-	static void Init(std::string _path);
+	~SpriteManager();
+	static SpriteManager* GetInstance();
+	static void RemoveInstance();
 
-	static sf::Sprite* GetSprite(const std::string& _fileName, int _locX = 0, int _locY = 0, int _sizeX = 0, int _sizeY = 0);
+	void Init(std::string _path);
 
-	static void CleanUp();
+	sf::Sprite* GetSprite(const std::string& _fileName, int _locX = 0, int _locY = 0, int _sizeX = 0, int _sizeY = 0);
+
+	void CleanUp();
 
 private:
-	static void LoadImage(const std::string& _fileName);
+	SpriteManager() {};
+	void LoadImage(const std::string& _fileName);
 
 private:
-	static std::string m_directory;
-	static std::map<std::string, sf::Texture*> m_sprites;
+	static bool m_instanceFlag;
+	static SpriteManager* m_single;
+
+	std::string m_directory;
+	std::map<std::string, sf::Texture*> m_sprites;
 };

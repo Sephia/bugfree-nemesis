@@ -2,6 +2,12 @@
 
 #pragma once
 
+#include "stdafx.h"
+
+class SpriteManager;
+class WindowManager;
+class Input;
+
 class State {
 public:
 
@@ -16,12 +22,16 @@ public:
 	virtual int Update() = 0;
 	virtual int UpdateEvents() = 0;
 
-	virtual std::string GetNextState() = 0;
-	virtual bool IsState(std::string name) = 0;
+	virtual StateName GetNextState() = 0;
+	virtual bool IsState(StateName name) = 0;
 
 	virtual void CleanUp() = 0;
 
 protected:
-	std::string m_nextState;
+	Input* m_input;
+	WindowManager* m_windowManager;
+	SpriteManager* m_spriteManager;
+
+	StateName m_nextState;
 };
 

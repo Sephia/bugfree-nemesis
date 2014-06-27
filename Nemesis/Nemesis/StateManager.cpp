@@ -6,7 +6,7 @@
 #include "WindowManager.h"
 
 StateManager::StateManager() {
-
+	m_currentState = nullptr;
 }
 
 StateManager::~StateManager() {
@@ -19,11 +19,11 @@ void StateManager::AddState(State* state) {
 		m_states.push_back(state);
 	}
 	else {
-		std::cout << "State is null when trying to add!\n";
+		std::cout << "State is null when trying to push it!\n";
 	}
 }
 
-void StateManager::SetState(std::string name) {
+void StateManager::SetState(StateName name) {
 	for (unsigned int i = 0; i < m_states.size(); i++) {
 		if (m_states.at(i)->IsState(name)) {
 			m_currentState = m_states.at(i);
@@ -31,8 +31,8 @@ void StateManager::SetState(std::string name) {
 	}
 }
 
-int StateManager::ChangeState() {
-	std::string nextState = m_currentState->GetNextState();
+bool StateManager::ChangeState() {
+	StateName nextState = m_currentState->GetNextState();
 
 	for (unsigned int i = 0; i < m_states.size(); i++) {
 		if (m_states.at(i)->IsState(nextState)) {
@@ -63,6 +63,11 @@ void StateManager::Draw() {
 }
 
 void StateManager::CleanUp() {
-	// TODO: Write clean up code here
+	m_currentState = nullptr;
 
+	for (int i = 0; i < m_states.size(); i++) {
+		m_states.at(i)->CleanUp();
+		delete m_states.at(i);
+		m_states.at(i) = nullptr;
+	}
 }

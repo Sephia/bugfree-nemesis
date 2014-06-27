@@ -6,9 +6,13 @@
 #include "Engine.h"
 #include "Position.h"
 #include "Input.h"
+#include "SpriteManager.h"
 
 StartMenuState::StartMenuState() {
-	m_nextState = "";
+	m_nextState = NONE;
+	m_windowManager = nullptr;
+	m_spriteManager = nullptr;
+	m_input = nullptr;
 }
 
 StartMenuState::~StartMenuState() {
@@ -16,12 +20,18 @@ StartMenuState::~StartMenuState() {
 }
 
 void StartMenuState::Init() {
+	m_windowManager = WindowManager::GetInstance();
+	m_spriteManager = SpriteManager::GetInstance();
+	m_input = Input::GetInstance();
+
 	m_viewPosition.m_x = 800;
 	m_viewPosition.m_y = 450;
 }
 
 void StartMenuState::Enter() {
-	m_nextState = "";
+	m_nextState = NONE;
+
+	m_windowManager->UpdateViewPosition(m_viewPosition);
 }
 
 void StartMenuState::Exit() {
@@ -33,37 +43,28 @@ void StartMenuState::Draw() {
 }
 
 int StartMenuState::Update() {
-	WindowManager::UpdateViewPosition(m_viewPosition);
-	// Update things here
+	m_windowManager->UpdateViewPosition(m_viewPosition);
+
 	return true;
 }
 
 int StartMenuState::UpdateEvents() {
 
-	if (Input::IsDown(sf::Keyboard::Escape))
+	if (m_input->IsDown(sf::Keyboard::Escape))
 		return false;
 
-	if (Input::Close())
+	if (m_input->Close())
 		return false;
-
-	if (Input::IsDown(sf::Keyboard::A))
-		m_viewPosition.m_x -= 1.0f * 10;
-	if (Input::IsDown(sf::Keyboard::D))
-		m_viewPosition.m_x += 1.0f * 10;
-	if (Input::IsDown(sf::Keyboard::W))
-		m_viewPosition.m_y -= 1.0f * 10;
-	if (Input::IsDown(sf::Keyboard::S))
-		m_viewPosition.m_y += 1.0f * 10;
 
 	return true;
 }
 
-std::string StartMenuState::GetNextState() {
+StateName StartMenuState::GetNextState() {
 	return m_nextState;
 }
 
-bool StartMenuState::IsState(std::string name) {
-	return name == "StartMenuState";
+bool StartMenuState::IsState(StateName name) {
+	return name == STARTMENUSTATE;
 }
 
 void StartMenuState::CleanUp() {

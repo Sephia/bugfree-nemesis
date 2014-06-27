@@ -6,12 +6,25 @@
 #include "TileFloor.h" 
 #include "TileEmpty.h"
 
-TileGrid::TileGrid() {
-
-}
+bool TileGrid::m_instanceFlag = false;
+TileGrid* TileGrid::m_single = nullptr;
 
 TileGrid::~TileGrid() {
+	m_instanceFlag = false;
+}
 
+TileGrid* TileGrid::GetInstance() {
+	if (!m_instanceFlag) {
+		m_single = new TileGrid();
+		m_instanceFlag = true;
+	}
+
+	return m_single;
+}
+
+void TileGrid::RemoveInstance() {
+	delete m_single;
+	m_single = nullptr;
 }
 
 void TileGrid::Init() {
@@ -76,9 +89,19 @@ void TileGrid::Draw() {
 	}
 }
 
+Position TileGrid::GetStartPosition() {
+	return m_startPosition;
+}
+
+void TileGrid::CleanUp() {
+	for (int y = 0; y < m_tiles.size(); y++) {
+		for (int x = 0; x < m_tiles.at(y).size(); x++) {
+			m_tiles.at(y).at(x)->CleanUp();
+		}
+	}
+}
+
 void TileGrid::SpawnRooms(std::vector<std::vector<TileStatus>> &tiles) {
-
-
 	tiles.resize(WORLDSIZE);
 	for (int y = 0; y < WORLDSIZE; y++) {
 		tiles.at(y).resize(WORLDSIZE, WALL);
@@ -171,7 +194,6 @@ void TileGrid::SpawnRooms(std::vector<std::vector<TileStatus>> &tiles) {
 
 void TileGrid::ConnectRooms(std::vector<std::vector<TileStatus>> &tiles) {
 	m_connected.at(0) = true;
-
 	bool done = false;
 	Direction direction;
 
@@ -179,6 +201,7 @@ void TileGrid::ConnectRooms(std::vector<std::vector<TileStatus>> &tiles) {
 		done = true;
 		int fromRoom;
 		int toRoom;
+
 		do {
 			fromRoom = rand() % m_rooms.size();
 		} while (!m_connected.at(fromRoom));
@@ -186,6 +209,9 @@ void TileGrid::ConnectRooms(std::vector<std::vector<TileStatus>> &tiles) {
 		do {
 			toRoom = rand() % m_rooms.size();
 		} while (m_connected.at(toRoom));
+
+		m_startPosition.m_x = m_rooms.at(toRoom).m_tile.m_x * TILESIZE;
+		m_startPosition.m_y = m_rooms.at(toRoom).m_tile.m_y * TILESIZE;
 
 		int xDiff;
 		int yDiff;

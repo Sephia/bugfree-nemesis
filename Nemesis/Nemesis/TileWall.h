@@ -14,5 +14,6 @@ public:
 	std::string IsType();
 	void Update();
 	void Draw();
+	void CleanUp();
 };
 

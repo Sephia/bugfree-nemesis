@@ -79,9 +79,11 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="StartMenuState.cpp" />
@@ -99,8 +101,11 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="StartMenuState.h" />

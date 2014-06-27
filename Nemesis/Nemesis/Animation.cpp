@@ -26,7 +26,7 @@ void Animation::AddFrame(Frame _frame) {
 	m_animation.push_back(_frame);
 }
 
-void Animation::Update(sf::Vector2f position) {
+void Animation::Update(Position _position) {
 	m_time += Engine::GetDeltaTime();
 
 	if (m_time >= m_animation[m_currentFrame].duration) {
@@ -35,7 +35,7 @@ void Animation::Update(sf::Vector2f position) {
 		m_frame = &m_animation[m_currentFrame];
 		m_sprite->setTextureRect(m_frame->iRect);
 	}
-	m_sprite->setPosition(position);
+	m_sprite->setPosition(sf::Vector2f(_position.m_x, _position.m_y));
 }
 
 void Animation::Update() {
@@ -50,7 +50,10 @@ void Animation::Update() {
 }
 
 bool Animation::Init(const std::string& _path) {
-	m_sprite = SpriteManager::GetSprite(_path);
+	m_spriteManager = SpriteManager::GetInstance();
+	m_sprite = m_spriteManager->GetSprite(_path);
+
+	std::cout << m_sprite->getOrigin().x << " " << m_sprite->getOrigin().y << std::endl;
 
 	if (m_sprite == nullptr)
 		return false;
@@ -58,6 +61,7 @@ bool Animation::Init(const std::string& _path) {
 	if (m_animation.size() > 0) {
 		m_frame = &m_animation[0];
 		m_sprite->setTextureRect(m_frame->iRect);
+		m_sprite->setOrigin(m_frame->iRect.width / 2.0f, m_frame->iRect.height / 2.0f);
 		return true;
 	}
 

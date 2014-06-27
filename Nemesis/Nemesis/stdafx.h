@@ -18,6 +18,13 @@
 const int WORLDSIZE = 100;
 const int TILESIZE = 64;
 
+enum StateName {
+	NONE,
+	GAMESTATE,
+	STARTMENUSTATE,
+	COUNT
+};
+
 #pragma warning(disable:4099)
 #if defined(_DEBUG)
 #pragma comment(lib, "debug/sfml-window-d.lib")

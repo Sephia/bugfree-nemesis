@@ -6,6 +6,8 @@
 #include "WindowManager.h"
 
 void AnimationManager::Init(const std::string& _pathAnimationSet) {
+	m_windowManager = WindowManager::GetInstance();
+
 	std::ifstream fstream;
 	fstream.open(_pathAnimationSet);
 	if (!fstream.good()) {
@@ -58,6 +60,10 @@ void AnimationManager::Update() {
 	m_currentAnimation->Update();
 }
 
+void AnimationManager::Update(Position _position) {
+	m_currentAnimation->Update(_position);
+}
+
 bool AnimationManager::PlayAnimation(const std::string& _animationName) {
 	auto it = m_animations.find(_animationName);
 
@@ -69,7 +75,7 @@ bool AnimationManager::PlayAnimation(const std::string& _animationName) {
 }
 
 void AnimationManager::DrawAnimation() {
-	WindowManager::Draw(m_currentAnimation->GetSprite());
+	m_windowManager->Draw(m_currentAnimation->GetSprite());
 }
 
 void AnimationManager::CleanUp() {

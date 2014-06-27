@@ -3,8 +3,26 @@
 #include "stdafx.h"
 #include "SpriteManager.h"
 
-std::string SpriteManager::m_directory;
-std::map<std::string, sf::Texture*> SpriteManager::m_sprites;
+bool SpriteManager::m_instanceFlag = false;
+SpriteManager* SpriteManager::m_single = nullptr;
+
+SpriteManager::~SpriteManager() {
+	m_instanceFlag = false;
+}
+
+SpriteManager* SpriteManager::GetInstance() {
+	if (!m_instanceFlag) {
+		m_single = new SpriteManager();
+		m_instanceFlag = true;
+	}
+
+	return m_single;
+}
+
+void SpriteManager::RemoveInstance() {
+	delete m_single;
+	m_single = nullptr;
+}
 
 void SpriteManager::Init(std::string _path) {
 	m_directory = _path;
@@ -14,7 +32,9 @@ sf::Sprite* SpriteManager::GetSprite(const std::string& _fileName, int _locX, in
 	auto it = m_sprites.find(_fileName);
 
 	if (it != m_sprites.end()) {
-		return new sf::Sprite(*it->second, sf::IntRect(_locX, _locY, _sizeX, _sizeY));
+		sf::Sprite* sprite = new sf::Sprite(*it->second, sf::IntRect(_locX, _locY, _sizeX, _sizeY));
+		sprite->setOrigin(sf::Vector2f(_sizeX / 2.0f, _sizeY / 2.0f));
+		return sprite;
 	}
 
 	LoadImage(_fileName);
@@ -22,7 +42,9 @@ sf::Sprite* SpriteManager::GetSprite(const std::string& _fileName, int _locX, in
 	it = m_sprites.find(_fileName);
 
 	if (it != m_sprites.end()) {
-		return new sf::Sprite(*it->second, sf::IntRect(_locX, _locY, _sizeX, _sizeY));
+		sf::Sprite* sprite = new sf::Sprite(*it->second, sf::IntRect(_locX, _locY, _sizeX, _sizeY));
+		sprite->setOrigin(sf::Vector2f(_sizeX / 2.0f, _sizeY / 2.0f));
+		return sprite;
 	}
 
 	sf::Sprite* sprite = nullptr;

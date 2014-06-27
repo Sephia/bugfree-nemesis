@@ -9,13 +9,18 @@ TileFloor::TileFloor() {
 	m_walkable = true;
 	m_type = "floor";
 
-	m_sprite = SpriteManager::GetSprite("Tiles.png", 0, 0, 64, 64);
+	m_spriteManager = SpriteManager::GetInstance();
+	m_sprite = m_spriteManager->GetSprite("Tiles.png", 0, 0, 64, 64);
 }
 
 TileFloor::TileFloor(Position pos) {
 	m_walkable = false;
 	m_type = "floor";
-	m_sprite = SpriteManager::GetSprite("Tiles.png", 0, 0, 64, 64);
+
+	m_windowManager = WindowManager::GetInstance();
+
+	m_spriteManager = SpriteManager::GetInstance();
+	m_sprite = m_spriteManager->GetSprite("Tiles.png", 0, 0, 64, 64);
 	m_sprite->setPosition(sf::Vector2f((float)pos.m_x, (float)pos.m_y));
 }
 
@@ -39,5 +44,15 @@ void TileFloor::Update() {
 }
 
 void TileFloor::Draw() {
-	WindowManager::Draw(m_sprite);
+	m_windowManager->Draw(m_sprite);
+}
+
+void TileFloor::CleanUp() {
+	if (m_sprite != nullptr) {
+		delete m_sprite;
+		m_sprite = nullptr;
+	}
+
+	m_windowManager = nullptr;
+	m_spriteManager = nullptr;
 }
